@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="easily make a list of your shopping items and track your shopping expense">
+    <title>Shopping List</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/resources/mdl/material.indigo-pink.min.css" />
+    <link rel="stylesheet" href="/resources/style.css" />
+    <script src="/resources/mdl/material.min.js"></script>
+</head>
+<body>
+    <!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Shopping List</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="index.html">Home</a>
+        <a class="mdl-navigation__link" href="history.html">History</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Shopping List</span>
+    <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="index.html">Home</a>
+        <a class="mdl-navigation__link" href="history.html">History</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+        <!-- Your content goes here -->
+        <div class="center">
+            <h2>History</h2>
+        </div>
+
+        <div class="mdl-grid center-items">
+            <ul class="demo-list-icon mdl-list">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                        <span class="pad-right">21 May 2016</span>
+                        <span><span class="cost-label">Cost: </span> $210</span>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                        <span class="pad-right">21 June 2016</span>
+                        <span><span class="cost-label">Cost: </span> $15.12</span>
+                    </span>
+                </li>
+            </ul>
+        </div>   
+        <div class="center">
+            <button 
+            class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                Show More
+            </button>
+        </div>    
+        
+    </div>
+  </main>
+</div>
+</body>
+</html>

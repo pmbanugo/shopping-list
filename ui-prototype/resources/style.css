@@ -1,0 +1,13 @@
+.center{text-align:center;padding:10px;}
+
+.mdl-grid.center-items {
+  justify-content: center;
+}
+
+.mdl-list__item {
+    border-style: none none double none;
+    cursor:pointer;
+}
+
+.pad-right {    padding-right: 20px; }
+.cost-label { font-weight: bolder; }
