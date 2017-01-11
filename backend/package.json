@@ -1,0 +1,11 @@
+{
+  "name": "shopping-list",
+  "version": "1.0.0",
+  "description": "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Mbanugo",
+  "license": "ISC"
+}
