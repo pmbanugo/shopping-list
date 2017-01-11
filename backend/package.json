@@ -4,8 +4,12 @@
   "description": "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "hoodie"
   },
   "author": "Peter Mbanugo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "hoodie": "^26.2.2"
+  }
 }
