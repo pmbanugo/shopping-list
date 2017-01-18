@@ -48,23 +48,23 @@
 
         <div class="mdl-grid center-items">
             <!-- Simple Textfield -->
-            <form action="#">
-            <div class="mdl-textfield mdl-js-textfield">
-                <input class="mdl-textfield__input" type="text" id="sample1">
-                <label class="mdl-textfield__label" for="sample1">Item Name</label>
+            <div>
+              <div class="mdl-textfield mdl-js-textfield">
+                  <input id="new-item-name" class="mdl-textfield__input" type="text">
+                  <label class="mdl-textfield__label" for="sample1">Item Name</label>
+              </div>
+              <button id="add-item" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+              Add Item
+              </button>
             </div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-            Add Item
-            </button>
-            </form>
 
         </div>
 
         <div class="mdl-grid center-items">
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <table id="item-table" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
   <thead>
     <tr>
-      <th class="mdl-data-table__cell--non-numeric">Item</th>
+      <th class="mdl-data-table__cell--non-numeric">Items</th>
       <th class="mdl-data-table__cell--non-numeric">
           <button class="mdl-button mdl-js-button mdl-button--icon">
             <i class="material-icons">delete</i>
@@ -73,15 +73,6 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-      <td class="mdl-data-table__cell--non-numeric">
-          <!-- Colored icon button -->
-            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-            <i class="material-icons">remove</i>
-            </button>
-      </td>
-    </tr>
     <tr>
       <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
       <td class="mdl-data-table__cell--non-numeric">
@@ -115,6 +106,20 @@
   </main>
 </div>
 
+<script id="item-row" type="text/template">
+    <tr id='{{id}}'>      
+      <td class="mdl-data-table__cell--non-numeric">{{name}}</td>
+      <td class="mdl-data-table__cell--non-numeric">
+            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+            onclick="pageEvents.deleteItem('{{id}}')">
+            <i class="material-icons">remove</i>
+            </button>
+      </td>
+    </tr>
+</script>
+
 <script src="http://127.0.0.1:2513/hoodie/client.js"></script>
+<!--<script src="js/app.js"></script>-->
+<script async data-main="js/app" src="js/require.js"></script>
 </body>
 </html>
