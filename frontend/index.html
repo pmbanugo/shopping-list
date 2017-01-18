@@ -73,15 +73,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-      <td class="mdl-data-table__cell--non-numeric">
-          <!-- Colored icon button -->
-            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-            <i class="material-icons">remove</i>
-            </button>
-      </td>
-    </tr>
+    
   </tbody>
 </table>
         </div>
@@ -107,11 +99,11 @@
 </div>
 
 <script id="item-row" type="text/template">
-    <tr id='{{id}}'>      
+    <tr id='{{row-id}}'>      
       <td class="mdl-data-table__cell--non-numeric">{{name}}</td>
       <td class="mdl-data-table__cell--non-numeric">
             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-            onclick="pageEvents.deleteItem('{{id}}')">
+            onclick="pageEvents.deleteItem('{{item-id}}')">
             <i class="material-icons">remove</i>
             </button>
       </td>

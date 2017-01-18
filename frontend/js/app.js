@@ -17,7 +17,8 @@ requirejs(["item"], function(Item) {
                let item = new Item(data.name, data.id);
                var template = getIndexTemplate();
                template = template.replace("{{name}}", data.name);
-               template = template.replace("{{id}}", data.id);
+               template = template.replace("{{row-id}}", data.id);
+               template = template.replace("{{item-id}}", data.id);
                document.getElementById("item-table").tBodies[0].innerHTML +=template; 
 
                console.log(data);
