@@ -81,17 +81,22 @@
         <div class="mdl-grid center-items">
             <!-- Numeric Textfield with Floating Label -->
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="cost">
+                <input class="mdl-textfield__input" type="number" id="cost">
                 <label class="mdl-textfield__label" for="cost">Total Item Cost</label>
-                <span class="mdl-textfield__error">Must be a number!</span>
             </div>            
         </div>
 
         <div class="mdl-grid center-items">
             <!-- Colored raised button -->
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+            onclick="pageEvents.saveList()">
             Save List
             </button>
+        </div>
+
+        <div id="toast" class="mdl-js-snackbar mdl-snackbar">
+          <div class="mdl-snackbar__text"></div>
+          <button class="mdl-snackbar__action" type="button"></button>
         </div>
 
     </div>
