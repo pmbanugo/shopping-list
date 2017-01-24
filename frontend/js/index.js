@@ -15,7 +15,7 @@ requirejs(["item"], function(Item) {
               hoodie.store('item').add({
                     name: itemName
                 }).then(function (data) {
-                    let item = new Item(data.name, data.id);
+                    var item = new Item(data.name, data.id);
                     var template = getIndexTemplate();
                     template = template.replace("{{name}}", data.name);
                     template = template.replace("{{row-id}}", data.id);
@@ -34,19 +34,7 @@ requirejs(["item"], function(Item) {
           row.parentNode.removeChild(row);
       }
 
-    hoodie.ready.then(function () {
-        // all hoodie APIs are ready now
-        document.getElementById("add-item").addEventListener("click", saveNewitem);
-
-        window.pageEvents = {
-        deleteItem: function(itemId){
-            console.log('removing item with id ' + itemId);
-            hoodie.store('item').remove(itemId)
-                .then(function(deletedItem){
-                    deleteRow(itemId);
-                });
-        },
-        saveList: function(){
+      function saveList(){
             let cost = document.getElementById("cost").value;
 
             hoodie.store('item').findAll().then(function (items) {   
@@ -74,7 +62,23 @@ requirejs(["item"], function(Item) {
                 var snackbarContainer = document.querySelector('#toast');
                 snackbarContainer.MaterialSnackbar.showSnackbar({message: 'List saved succesfully'});
             });
+        };
+
+        function deleteItem(itemId){
+                console.log('removing item with id ' + itemId);
+                hoodie.store('item').remove(itemId)
+                    .then(function(deletedItem){
+                        deleteRow(itemId);
+                    });
+            }
+
+    hoodie.ready.then(function () {
+        // all hoodie APIs are ready now
+        document.getElementById("add-item").addEventListener("click", saveNewitem);
+
+        window.pageEvents = {
+            deleteItem: deleteItem,
+            saveList: saveList
         }
-    }
     });
 });
