@@ -1,5 +1,5 @@
 'use strict';
-
+//TODO: Delete file as it seems the class is not in use
 define(function () {
     var Item = class {
     constructor(name, id){

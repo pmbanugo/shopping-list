@@ -6,6 +6,16 @@ requirejs(["item"], function(Item) {
           var template = document.querySelector('#item-row').innerHTML;
           return template;
       }  
+      
+      function addItemToPage(item){
+          var template = getIndexTemplate();
+          template = template.replace("{{name}}", item.name);
+          template = template.replace("{{row-id}}", item.id);
+          template = template.replace("{{item-id}}", item.id);
+          document.getElementById("item-table").tBodies[0].innerHTML +=template; 
+
+          console.log(item);
+      }
 
       function saveNewitem(){
           var itemNameInput = document.getElementById("new-item-name");
@@ -14,15 +24,8 @@ requirejs(["item"], function(Item) {
           if(itemName){
               hoodie.store('item').add({
                     name: itemName
-                }).then(function (data) {
-                    var item = new Item(data.name, data.id);
-                    var template = getIndexTemplate();
-                    template = template.replace("{{name}}", data.name);
-                    template = template.replace("{{row-id}}", data.id);
-                    template = template.replace("{{item-id}}", data.id);
-                    document.getElementById("item-table").tBodies[0].innerHTML +=template; 
-
-                    console.log(data);
+                }).then(function (item) {                    
+                    addItemToPage(item);
                 });
           }
           itemNameInput.value = "";
@@ -80,5 +83,12 @@ requirejs(["item"], function(Item) {
             deleteItem: deleteItem,
             saveList: saveList
         }
+
+        //retrieve items on the current list
+        hoodie.store('item').findAll().then(function (items){
+            for(var item of items){
+                addItemToPage(item);
+            }            
+        });
     });
 });
