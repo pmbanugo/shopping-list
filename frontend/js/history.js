@@ -9,6 +9,10 @@ requirejs(["item"], function(Item) {
     hoodie.ready.then(function () {
         // all hoodie APIs are ready now
 
+        //register dialog element
+        var dialog = document.querySelector('dialog');
+        dialogPolyfill.registerDialog(dialog);
+
         hoodie.store('list').findAll().then(function (listCollection){
             for(var list of listCollection){
                 var template = getIndexTemplate();

@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="/resources/mdl/material.indigo-pink.min.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <script src="/resources/mdl/material.min.js"></script>
+    <script src="/resources/dialog-polyfill/dialog-polyfill.js"></script>
+    <link rel="stylesheet" href="/resources/dialog-polyfill/dialog-polyfill.css" /> 
+    <style>
+      login {
+        cursor: pointer;
+      }
+      logout {
+        cursor: pointer;
+      }
+      register {
+        cursor: pointer;
+      }
+    </style>   
 </head>
 <body>
     <!-- Always shows a header, even in smaller screens. -->
@@ -25,8 +38,9 @@
       <nav class="mdl-navigation mdl-layout--large-screen-only">
         <a class="mdl-navigation__link" href="index.html">Home</a>
         <a class="mdl-navigation__link" href="history.html">History</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
+        <a onclick="pageEvents.showLogin()" style="cursor: pointer" class="mdl-navigation__link login">Login</a>
+        <a onclick="pageEvents.showRegister()" style="cursor: pointer" class="mdl-navigation__link register">Register</a>
+        <a onclick="pageEvents.signout()" style="cursor: pointer" class="mdl-navigation__link logout">Logout</a>
       </nav>
     </div>
   </header>
@@ -35,8 +49,9 @@
     <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="index.html">Home</a>
         <a class="mdl-navigation__link" href="history.html">History</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
+        <a onclick="pageEvents.showLogin()" style="cursor: pointer" class="mdl-navigation__link login">Login</a>
+        <a onclick="pageEvents.showRegister()" style="cursor: pointer" class="mdl-navigation__link register">Register</a>
+        <a onclick="pageEvents.signout()" style="cursor: pointer" class="mdl-navigation__link logout">Logout</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -102,6 +117,66 @@
     </div>
   </main>
 </div>
+
+<dialog id="login-dialog" class="mdl-dialog">
+  <h4 class="mdl-dialog__title">Login</h4>
+  <div class="mdl-dialog__content">
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <input class="mdl-textfield__input" type="text" id="login-username">
+          <label class="mdl-textfield__label" for="login-username">Username</label>
+        </div>            
+    </div>
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <input class="mdl-textfield__input" type="password" id="login-password">
+          <label class="mdl-textfield__label" for="login-password">Password</label>
+        </div>            
+    </div>
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <span id="login-error"></span>
+        </div>            
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button onclick="pageEvents.closeLogin()" type="button" class="mdl-button close">Cancel</button>
+    <button onclick="pageEvents.login()" type="button" class="mdl-button">Login</button>
+  </div>
+</dialog>
+
+<dialog id="register-dialog" class="mdl-dialog">
+  <h4 class="mdl-dialog__title">Login</h4>
+  <div class="mdl-dialog__content">
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <input class="mdl-textfield__input" type="text" id="register-username">
+          <label class="mdl-textfield__label" for="register-username">Username</label>
+        </div>            
+    </div>
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <input class="mdl-textfield__input" type="password" id="register-password">
+          <label class="mdl-textfield__label" for="register-password">Password</label>
+        </div>            
+    </div>
+    <div class="mdl-grid center-items">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+          <span id="register-error"></span>
+        </div>            
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button onclick="pageEvents.closeRegister()" type="button" class="mdl-button close">Cancel</button>
+    <button onclick="pageEvents.register()" type="button" class="mdl-button">Register</button>
+  </div>
+</dialog>
 
 <script id="item-row" type="text/template">
     <tr id='{{row-id}}'>      
