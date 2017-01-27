@@ -10,6 +10,6 @@
   "author": "Peter Mbanugo",
   "license": "ISC",
   "dependencies": {
-    "hoodie": "^26.2.2"
+    "hoodie": "^27.1.1"
   }
 }
