@@ -60,15 +60,21 @@ requirejs(["item"], function(Item) {
 
                 //delete the items
                 console.log('deleting items');
-                hoodie.store('item').remove(items);
+                hoodie.store('item').remove(items)
+                .then(function (){
+                    //clear the table
+                    document.getElementById("item-table").tBodies[0].innerHTML = "";
+                    document.getElementById("cost").value = "";
 
-                //clear the table
-                document.getElementById("item-table").tBodies[0].innerHTML = "";
-                document.getElementById("cost").value = "";
-
-                //notify the user
-                var snackbarContainer = document.querySelector('#toast');
-                snackbarContainer.MaterialSnackbar.showSnackbar({message: 'List saved succesfully'});
+                    //notify the user
+                    var snackbarContainer = document.querySelector('#toast');
+                    snackbarContainer.MaterialSnackbar.showSnackbar({message: 'List saved succesfully'});
+                })
+                .catch(function (error){
+                    //notify the user
+                    var snackbarContainer = document.querySelector('#toast');
+                    snackbarContainer.MaterialSnackbar.showSnackbar({message: error.message});
+                });
             });
         };
 
@@ -124,13 +130,14 @@ requirejs(["item"], function(Item) {
         })
         .then(function() {
             showLoggedIn();
+            closeLoginDialog();
 
             var snackbarContainer = document.querySelector('#toast');
             snackbarContainer.MaterialSnackbar.showSnackbar({message: 'You logged in'});
         })
         .catch(function (error){
             console.log(error);
-            document.querySelector('#login-error').innerHTML = error.Error;
+            document.querySelector('#login-error').innerHTML = error.message;
         });
     }
 
@@ -152,15 +159,13 @@ function register(){
     var options = { username: username, password: password }
 
     hoodie.account.signUp(options)
-    .then(function (){
+    .then(function (account){
         return hoodie.account.signIn(options);
     })
-    .then(function() {
-        showLoggedIn();
-    })
+    .then( account => showLoggedIn() || account)
     .catch(function (error){
         console.log(error);
-        document.querySelector('#register-error').innerHTML = error.Error;
+        document.querySelector('#register-error').innerHTML = error.message;
     });
 }
 
@@ -183,7 +188,8 @@ function register(){
             closeRegister: closeRegisterDialog,
             showRegister: showRegisterDialog,
             login: login,
-            register: register
+            register: register,
+            signout: signOut
         }
 
         //retrieve items on the current list and display on the page
