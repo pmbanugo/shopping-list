@@ -1,5 +1,11 @@
 requirejs(["item"], function(Item) {
     "use strict";
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("sw.js")
+        .then(console.log)
+        .catch(console.error);
+    }
+
       var template = document.querySelector('#item-row').innerHTML;
       //register dialog element
       var loginDialog = document.querySelector('#login-dialog');

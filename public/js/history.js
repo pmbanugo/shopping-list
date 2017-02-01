@@ -1,6 +1,12 @@
 requirejs(["item"], function(Item) {
     "use strict";
-    //TODO: Refactor 
+    //TODO: Refactor Code for DRY
+
+    if("serviceWorker" in navigator){
+        navigator.serviceWorker.register("sw.js")
+        .then(console.log)
+        .catch(console.error);
+    }
 
     //register dialog element
     var loginDialog = document.querySelector('#login-dialog');
