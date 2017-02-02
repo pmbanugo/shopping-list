@@ -1,6 +1,6 @@
 importScripts("/resources/sw-toolbox.js");
 
-const version = "2.55";
+const version = "001";
 
 self.addEventListener("install", function(event){
     event.waitUntil(
@@ -8,6 +8,7 @@ self.addEventListener("install", function(event){
         .then(function(cache){
             return cache.addAll(["/index.html",
                         "/history.html",
+                        "/manifest.json",
                         "/resources/mdl/material.indigo-pink.min.css",
                         "/resources/mdl/material.min.js",
                         "/resources/mdl/MaterialIcons-Regular.eot",
@@ -25,8 +26,10 @@ self.addEventListener("install", function(event){
                         "/hoodie/client.js"]);
     })
     .then(function(){
+        console.log("skipping wait");
         return self.skipWaiting();
-    }));
+    })
+    .catch(console.error));
 
     console.log("SW Installed");
 });
@@ -42,8 +45,10 @@ self.addEventListener("activate", function (event){
             }));
         })
         .then(function(){
+            console.log("claimed");
             return self.clients.claim();
-        }));
+        })
+        .catch(console.error));
         
         console.log("SW activated");
 });
