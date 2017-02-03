@@ -1,4 +1,4 @@
-requirejs(["item"], function(Item) {
+requirejs(function() {
     "use strict";
     //TODO: Refactor Code for DRY
 
