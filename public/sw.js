@@ -7,13 +7,11 @@ self.addEventListener("install", function(event){
         caches.open(version)
         .then(function(cache){
             return cache.addAll(["/index.html",
+                        "/",
                         "/history.html",
                         "/manifest.json",
                         "/resources/mdl/material.indigo-pink.min.css",
                         "/resources/mdl/material.min.js",
-                        "/resources/mdl/MaterialIcons-Regular.eot",
-                        "/resources/mdl/MaterialIcons-Regular.ttf",
-                        "/resources/mdl/MaterialIcons-Regular.woff",
                         "/resources/mdl/MaterialIcons-Regular.woff2",
                         "/resources/mdl/material-icons.css",
                         "/css/style.css",
