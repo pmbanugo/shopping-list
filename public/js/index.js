@@ -1,4 +1,4 @@
-requirejs(function() {
+(function(){
     "use strict";
     if("serviceWorker" in navigator){
         navigator.serviceWorker.register("sw.js")
@@ -205,4 +205,4 @@ function register(){
             }            
         });
     });
-});
+})();

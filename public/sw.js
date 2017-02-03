@@ -1,6 +1,6 @@
 importScripts("/resources/sw-toolbox.js");
 
-const version = "001";
+const version = "003";
 
 self.addEventListener("install", function(event){
     event.waitUntil(
@@ -9,21 +9,8 @@ self.addEventListener("install", function(event){
             return cache.addAll(["/index.html",
                         "/history.html",
                         "/manifest.json",
-                        "/resources/mdl/material.indigo-pink.min.css",
-                        "/resources/mdl/material.min.js",
-                        "/resources/mdl/MaterialIcons-Regular.eot",
-                        "/resources/mdl/MaterialIcons-Regular.ttf",
-                        "/resources/mdl/MaterialIcons-Regular.woff",
-                        "/resources/mdl/MaterialIcons-Regular.woff2",
-                        "/resources/mdl/material-icons.css",
-                        "/css/style.css",
-                        "/resources/dialog-polyfill/dialog-polyfill.js",
-                        "/resources/dialog-polyfill/dialog-polyfill.css",
-                        "/js/require.js",
                         "/js/index.js",
-                        "/js/item.js",
-                        "/js/history.js",
-                        "/hoodie/client.js"]);
+                        "/js/history.js"]);
     })
     .then(function(){
         console.log("skipping wait");

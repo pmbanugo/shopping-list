@@ -1,4 +1,4 @@
-requirejs(function() {
+(function() {
     "use strict";
     //TODO: Refactor Code for DRY
 
@@ -131,4 +131,4 @@ requirejs(function() {
             signout: signOut
         }
     });
-});
+})();
