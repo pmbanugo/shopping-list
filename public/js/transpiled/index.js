@@ -26,17 +26,13 @@ System.register(["shared.js"], function (_export, _context) {
         var itemName = itemNameInput.value;
 
         if (itemName) {
-            hoodie.store('item').add({
-                name: itemName
-            }).then(function (item) {
-                addItemToPage(item);
-            });
+            hoodie.store('item').add({ name: itemName });
         }
         itemNameInput.value = "";
     }
 
-    function deleteRow(rowid) {
-        var row = document.getElementById(rowid);
+    function deleteRow(deletedItem) {
+        var row = document.getElementById(deletedItem.id);
         row.parentNode.removeChild(row);
     }
 
@@ -98,9 +94,7 @@ System.register(["shared.js"], function (_export, _context) {
 
     function deleteItem(itemId) {
         console.log('removing item with id ' + itemId);
-        hoodie.store('item').remove(itemId).then(function (deletedItem) {
-            deleteRow(itemId);
-        });
+        hoodie.store('item').remove(itemId);
     }
 
     return {
@@ -111,6 +105,8 @@ System.register(["shared.js"], function (_export, _context) {
             ;hoodie.ready.then(function () {
                 // all hoodie APIs are ready now
                 shared.updateDOMLoginStatus();
+                hoodie.store('item').on('add', addItemToPage);
+                hoodie.store('item').on('remove', deleteRow);
 
                 document.getElementById("add-item").addEventListener("click", saveNewitem);
 

@@ -1,6 +1,6 @@
 importScripts("/resources/sw-toolbox.js");
 
-const version = "0.11";
+const version = "0.12";
 
 self.addEventListener("install", function(event){
     event.waitUntil(
@@ -22,17 +22,20 @@ self.addEventListener("install", function(event){
                         "/js/transpiled/shared.js",
                         "/hoodie/client.js"]);
     })
-    .then(function(){
+    .then((r) => {
         console.log("SW skipping wait");
-        return self.skipWaiting();
+        self.skipWaiting();
+        console.log("SW Installed");
+        return r;
     })
-    .then((r) => console.log("SW Installed") || r)
     .catch(console.error));
-
-    //console.log("SW Installed");
 });
 
 self.addEventListener("activate", function (event){
+    console.log("SW claiming");
+    self.clients.claim();
+    console.log("SW activated");
+
     event.waitUntil(
         caches.keys()
         .then(function (keys){
@@ -42,14 +45,11 @@ self.addEventListener("activate", function (event){
                 return caches.delete(key);
             }));
         })
-        .then(function(){
-            console.log("SW claiming");
-            return self.clients.claim();
+        .then((r) => {
+            console.log(r);
+            return r;
         })
-        .then((r) => console.log("SW activated") || r)
         .catch(console.error));
-        
-        //console.log("SW activated");
 });
 
 
