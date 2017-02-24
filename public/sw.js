@@ -1,6 +1,6 @@
 importScripts("/resources/sw-toolbox.js");
 
-const version = "004";
+const version = "0.11";
 
 self.addEventListener("install", function(event){
     event.waitUntil(
@@ -17,17 +17,19 @@ self.addEventListener("install", function(event){
                         "/css/style.css",
                         "/resources/dialog-polyfill/dialog-polyfill.js",
                         "/resources/dialog-polyfill/dialog-polyfill.css",
-                        "/js/index.js",
-                        "/js/history.js",
+                        "/js/transpiled/index.js",
+                        "/js/transpiled/history.js",
+                        "/js/transpiled/shared.js",
                         "/hoodie/client.js"]);
     })
     .then(function(){
-        console.log("skipping wait");
+        console.log("SW skipping wait");
         return self.skipWaiting();
     })
+    .then((r) => console.log("SW Installed") || r)
     .catch(console.error));
 
-    console.log("SW Installed");
+    //console.log("SW Installed");
 });
 
 self.addEventListener("activate", function (event){
@@ -41,12 +43,13 @@ self.addEventListener("activate", function (event){
             }));
         })
         .then(function(){
-            console.log("claimed");
+            console.log("SW claiming");
             return self.clients.claim();
         })
+        .then((r) => console.log("SW activated") || r)
         .catch(console.error));
         
-        console.log("SW activated");
+        //console.log("SW activated");
 });
 
 

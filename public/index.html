@@ -217,6 +217,10 @@
 </script>
 
 <script src="/hoodie/client.js"></script>
-<script src="js/index.js"></script>
+<script src="resources/system.js"></script>
+<script>
+  System.config({ "baseURL": "js/transpiled" });
+  System.import("index.js");
+</script>
 </body>
 </html>
