@@ -85,25 +85,48 @@
             <h2>List</h2>
         </div>
 
-        <div class="mdl-grid center-items">
-            <!-- Simple Textfield -->
-            <div>
-              <div class="mdl-textfield mdl-js-textfield">
-                  <input id="new-item-name" class="mdl-textfield__input" type="text">
-                  <label class="mdl-textfield__label" for="sample1">Item Name</label>
-              </div>
-              <button id="add-item" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-              Add Item
-              </button>
-            </div>
+        <div>
+          <div class="mdl-grid center-items">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="new-item-name">
+                <label class="mdl-textfield__label" for="new-item-name">Item Name</label>
+            </div>  
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="new-item-cost">
+                <label class="mdl-textfield__label" for="new-item-cost">Item Cost</label>
+            </div>  
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="new-item-quantity">
+                <label class="mdl-textfield__label" for="new-item-quantity">Quantity</label>
+            </div>           
+        </div>
 
+        <!--<div class="mdl-grid center-items">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="new-item-cost">
+                <label class="mdl-textfield__label" for="new-item-cost">Item Cost</label>
+            </div>  
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="new-item-quantity">
+                <label class="mdl-textfield__label" for="new-item-quantity">Quantity</label>
+            </div>          
+        </div>-->
+
+        <div class="mdl-grid center-items">
+            <button id="add-item" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+              Add Item
+            </button>
+        </div>
         </div>
 
         <div class="mdl-grid center-items">
             <table id="item-table" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
   <thead>
     <tr>
-      <th class="mdl-data-table__cell--non-numeric">Items</th>
+      <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+      <th class="mdl-data-table__cell--non-numeric">Cost</th>
+      <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+      <th class="mdl-data-table__cell">Sub-total</th>
       <th class="mdl-data-table__cell--non-numeric">
           <button class="mdl-button mdl-js-button mdl-button--icon">
             <i class="material-icons">delete</i>
@@ -118,18 +141,16 @@
         </div>
 
         <div class="mdl-grid center-items">
-            <!-- Numeric Textfield with Floating Label -->
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="number" id="cost">
+                <input class="mdl-textfield__input" type="number" id="total-cost" readonly value="0">
                 <label class="mdl-textfield__label" for="cost">Total Item Cost</label>
-            </div>            
+            </div>        
         </div>
 
         <div class="mdl-grid center-items">
-            <!-- Colored raised button -->
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
             onclick="pageEvents.saveList()">
-            Save List
+              Save List
             </button>
         </div>
 
@@ -207,6 +228,9 @@
 <script id="item-row" type="text/template">
     <tr id='{{row-id}}'>      
       <td class="mdl-data-table__cell--non-numeric">{{name}}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{cost}}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{quantity}}</td>
+      <td class="mdl-data-table__cell">{{subTotal}}</td>
       <td class="mdl-data-table__cell--non-numeric">
             <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
             onclick="pageEvents.deleteItem('{{item-id}}')">

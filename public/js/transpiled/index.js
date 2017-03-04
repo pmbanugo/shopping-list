@@ -14,21 +14,38 @@ System.register(["shared.js"], function (_export, _context) {
     function addItemToPage(item) {
         var template = getIndexTemplate();
         template = template.replace("{{name}}", item.name);
+        template = template.replace("{{cost}}", item.cost);
+        template = template.replace("{{quantity}}", item.quantity);
+        template = template.replace("{{subTotal}}", item.subTotal);
         template = template.replace("{{row-id}}", item.id);
         template = template.replace("{{item-id}}", item.id);
         document.getElementById("item-table").tBodies[0].innerHTML += template;
+
+        var totalCost = Number.parseFloat(document.getElementById("total-cost").value);
+        document.getElementById("total-cost").value = totalCost + item.subTotal;
 
         console.log(item);
     }
 
     function saveNewitem() {
-        var itemNameInput = document.getElementById("new-item-name");
-        var itemName = itemNameInput.value;
+        var name = document.getElementById("new-item-name").value;
+        var cost = document.getElementById("new-item-cost").value;
+        var quantity = document.getElementById("new-item-quantity").value;
+        var subTotal = cost * quantity;
 
-        if (itemName) {
-            hoodie.store('item').add({ name: itemName });
+        if (name && cost && quantity) {
+            hoodie.store('item').add({ name: name,
+                cost: cost,
+                quantity: quantity,
+                subTotal: subTotal });
+
+            document.getElementById("new-item-name").value = "";
+            document.getElementById("new-item-cost").value = "";
+            document.getElementById("new-item-quantity").value = "";
+        } else {
+            var snackbarContainer = document.querySelector('#toast');
+            snackbarContainer.MaterialSnackbar.showSnackbar({ message: 'All fields are required' });
         }
-        itemNameInput.value = "";
     }
 
     function deleteRow(deletedItem) {
@@ -37,20 +54,20 @@ System.register(["shared.js"], function (_export, _context) {
     }
 
     function saveList() {
-        var cost = document.getElementById("cost").value;
+        var cost = 0.00;
 
         hoodie.store('item').findAll().then(function (items) {
-            console.log('cost = ', cost);
-            console.log('items');
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
 
             try {
+
                 for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var item = _step.value;
 
                     console.log(item);
+                    cost += item.subTotal;
                 }
 
                 //store the list
@@ -79,7 +96,6 @@ System.register(["shared.js"], function (_export, _context) {
             hoodie.store('item').remove(items).then(function () {
                 //clear the table
                 document.getElementById("item-table").tBodies[0].innerHTML = "";
-                document.getElementById("cost").value = "";
 
                 //notify the user
                 var snackbarContainer = document.querySelector('#toast');

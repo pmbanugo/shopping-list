@@ -46,8 +46,8 @@ let showLoggedIn = function (){
 }
 
 let login = function (){
-    var username = document.querySelector('#login-username').value;
-    var password = document.querySelector('#login-password').value;
+    let username = document.querySelector('#login-username').value;
+    let password = document.querySelector('#login-password').value;
 
     hoodie.account.signIn({
         username: username,
@@ -57,7 +57,7 @@ let login = function (){
         showLoggedIn();
         closeLoginDialog();
 
-        var snackbarContainer = document.querySelector('#toast');
+        let snackbarContainer = document.querySelector('#toast');
         snackbarContainer.MaterialSnackbar.showSnackbar({message: 'You logged in'});
     })
     .catch(function (error){
@@ -69,19 +69,19 @@ let login = function (){
 let signOut = function (){
     hoodie.account.signOut().then(function() {
         showAnonymous();
-        var snackbarContainer = document.querySelector('#toast');
+        let snackbarContainer = document.querySelector('#toast');
         snackbarContainer.MaterialSnackbar.showSnackbar({message: 'You logged out'});
     })
     .catch(function(){
-        var snackbarContainer = document.querySelector('#toast');
+        let snackbarContainer = document.querySelector('#toast');
         snackbarContainer.MaterialSnackbar.showSnackbar({message: 'Could not logout'});
     });
 }
 
 let register = function (){
-    var username = document.querySelector('#register-username').value;
-    var password = document.querySelector('#register-password').value;
-    var options = { username: username, password: password }
+    let username = document.querySelector('#register-username').value;
+    let password = document.querySelector('#register-password').value;
+    let options = { username: username, password: password }
 
     hoodie.account.signUp(options)
     .then(function (account){

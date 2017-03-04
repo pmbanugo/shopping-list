@@ -9,21 +9,39 @@ function getIndexTemplate(){
 function addItemToPage(item){
     let template = getIndexTemplate();
     template = template.replace("{{name}}", item.name);
+    template = template.replace("{{cost}}", item.cost);
+    template = template.replace("{{quantity}}", item.quantity);
+    template = template.replace("{{subTotal}}", item.subTotal);
     template = template.replace("{{row-id}}", item.id);
     template = template.replace("{{item-id}}", item.id);
     document.getElementById("item-table").tBodies[0].innerHTML +=template; 
+
+    let totalCost = Number.parseFloat(document.getElementById("total-cost").value);
+    document.getElementById("total-cost").value = totalCost + item.subTotal;
 
     console.log(item);
 }
 
 function saveNewitem(){
-    let itemNameInput = document.getElementById("new-item-name");
-    let itemName = itemNameInput.value;
+    let name = document.getElementById("new-item-name").value;
+    let cost = document.getElementById("new-item-cost").value;
+    let quantity = document.getElementById("new-item-quantity").value;
+    let subTotal = cost * quantity;
 
-    if(itemName){
-        hoodie.store('item').add({ name: itemName });
+    if(name && cost && quantity){
+        hoodie.store('item').add({ name: name,
+                                   cost: cost,
+                                   quantity: quantity,
+                                   subTotal: subTotal});
+
+        document.getElementById("new-item-name").value = "";
+        document.getElementById("new-item-cost").value = "";
+        document.getElementById("new-item-quantity").value = "";
     }
-    itemNameInput.value = "";
+    else {
+        let snackbarContainer = document.querySelector('#toast');
+        snackbarContainer.MaterialSnackbar.showSnackbar({message: 'All fields are required'});
+    }
 }
 
 function deleteRow(deletedItem){
@@ -32,13 +50,13 @@ function deleteRow(deletedItem){
 }
 
 function saveList(){
-    let cost = document.getElementById("cost").value;
+    let cost = 0.00;
 
-    hoodie.store('item').findAll().then(function (items) {   
-        console.log('cost = ', cost);
-        console.log('items');
+    hoodie.store('item').findAll().then(function (items) {
+        
         for(var item of items) {
             console.log(item);
+            cost += item.subTotal;
         }
 
         //store the list
@@ -53,7 +71,6 @@ function saveList(){
         .then(function (){
             //clear the table
             document.getElementById("item-table").tBodies[0].innerHTML = "";
-            document.getElementById("cost").value = "";
 
             //notify the user
             var snackbarContainer = document.querySelector('#toast');

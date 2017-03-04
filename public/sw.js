@@ -1,6 +1,6 @@
 importScripts("/resources/sw-toolbox.js");
 
-const version = "0.2";
+const version = "0.3";
 
 self.addEventListener("install", function(event){
     event.waitUntil(
