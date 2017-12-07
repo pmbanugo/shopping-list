@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "hoodie",
-    "build": "babel public/js/src --out-dir public/js/transpiled"
+    "transpile": "babel public/js/src --out-dir public/js/transpiled"
   },
   "author": "Peter Mbanugo",
   "license": "ISC",
