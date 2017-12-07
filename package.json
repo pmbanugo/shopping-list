@@ -1,15 +1,17 @@
 {
   "name": "shopping-list",
   "version": "1.0.0",
-  "description": "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
+  "description":
+    "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "hoodie"
+    "start": "hoodie",
+    "build": "babel public/js/src --out-dir public/js/transpiled"
   },
   "author": "Peter Mbanugo",
   "license": "ISC",
   "dependencies": {
-    "hoodie": "^27.1.1"
+    "hoodie": "^28.2.2"
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-systemjs": "^6.23.0",
