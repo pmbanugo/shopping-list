@@ -1,3 +1,6 @@
 .hoodie
 .now-publish.sh
+.babelrc
+dev-notes.md
 node_modules
+downloads
