@@ -17,7 +17,7 @@ function init() {
         let template = getIndexTemplate();
         template = template.replace(
           "{{date}}",
-          new Date(list.createdAt).toDateString()
+          new Date(list.hoodie.createdAt).toDateString()
         );
         template = template.replace("{{cost}}", list.cost);
         document.getElementById("list-history").innerHTML += template;
