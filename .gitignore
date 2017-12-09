@@ -5,3 +5,6 @@ dev-notes.md
 node_modules
 downloads
 public/js/transpiled
+public/sw.js
+public/workbox-sw.prod.v2.1.2.js
+public/workbox-sw.prod.v2.1.2.js.map
