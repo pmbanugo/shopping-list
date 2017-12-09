@@ -78,6 +78,7 @@ let signOut = function() {
       snackbarContainer.MaterialSnackbar.showSnackbar({
         message: "You logged out"
       });
+      location.href = location.origin;
     })
     .catch(function() {
       let snackbarContainer = document.querySelector("#toast");
@@ -97,7 +98,11 @@ let register = function() {
     .then(function(account) {
       return hoodie.account.signIn(options);
     })
-    .then(account => showLoggedIn() || account)
+    .then(account => {
+      showLoggedIn();
+      closeRegisterDialog();
+      return account;
+    })
     .catch(function(error) {
       console.log(error);
       document.querySelector("#register-error").innerHTML = error.message;
