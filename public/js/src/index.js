@@ -6,13 +6,15 @@ function getIndexTemplate() {
 }
 
 function addItemToPage(item) {
+  if (document.getElementById(item._id)) return;
+
   let template = getIndexTemplate();
   template = template.replace("{{name}}", item.name);
   template = template.replace("{{cost}}", item.cost);
   template = template.replace("{{quantity}}", item.quantity);
   template = template.replace("{{subTotal}}", item.subTotal);
-  template = template.replace("{{row-id}}", item.id);
-  template = template.replace("{{item-id}}", item.id);
+  template = template.replace("{{row-id}}", item._id);
+  template = template.replace("{{item-id}}", item._id);
   document.getElementById("item-table").tBodies[0].innerHTML += template;
 
   let totalCost = Number.parseFloat(
@@ -49,15 +51,20 @@ function saveNewitem() {
 }
 
 function deleteRow(deletedItem) {
-  let row = document.getElementById(deletedItem.id);
+  let row = document.getElementById(deletedItem._id);
+  let totalCost = Number.parseFloat(
+    document.getElementById("total-cost").value
+  );
+  document.getElementById("total-cost").value =
+    totalCost - deletedItem.subTotal;
   row.parentNode.removeChild(row);
 }
 
 function saveList() {
   let cost = 0.0;
 
-  hoodie
-    .store("item")
+  hoodie.store
+    .withIdPrefix("item")
     .findAll()
     .then(function(items) {
       for (var item of items) {
@@ -73,8 +80,8 @@ function saveList() {
 
       //delete the items
       console.log("deleting items");
-      hoodie
-        .store("item")
+      hoodie.store
+        .withIdPrefix("item")
         .remove(items)
         .then(function() {
           //clear the table
