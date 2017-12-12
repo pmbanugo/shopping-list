@@ -6,14 +6,13 @@ function getIndexTemplate() {
 }
 
 function init() {
-  // all hoodie APIs are ready now
   shared.updateDOMLoginStatus();
 
   hoodie.store
     .withIdPrefix("list")
     .findAll()
-    .then(function(listCollection) {
-      for (let list of listCollection) {
+    .then(function(savedList) {
+      for (let list of savedList) {
         let template = getIndexTemplate();
         template = template.replace(
           "{{date}}",

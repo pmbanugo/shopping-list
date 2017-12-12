@@ -109,7 +109,6 @@ function deleteItem(itemId) {
 }
 
 function init() {
-  // all hoodie APIs are ready now
   shared.updateDOMLoginStatus();
   hoodie.store.withIdPrefix("item").on("add", addItemToPage);
   hoodie.store.withIdPrefix("item").on("remove", deleteRow);
