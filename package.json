@@ -5,14 +5,14 @@
     "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "hoodie"
+    "start": "hoodie",
+    "build":
+      "babel public/js/src --out-dir public/js/transpiled && workbox generate:sw"
   },
   "author": "Peter Mbanugo",
   "license": "ISC",
   "dependencies": {
-    "hoodie": "^28.2.2",
-    "build":
-      "babel public/js/src --out-dir public/js/transpiled && workbox generate:sw"
+    "hoodie": "^28.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
