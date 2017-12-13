@@ -10,7 +10,9 @@
   "author": "Peter Mbanugo",
   "license": "ISC",
   "dependencies": {
-    "hoodie": "^28.2.2"
+    "hoodie": "^28.2.2",
+    "build":
+      "babel public/js/src --out-dir public/js/transpiled && workbox generate:sw"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
