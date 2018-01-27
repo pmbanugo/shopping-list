@@ -1,53 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="easily make a list of your shopping items and track your shopping expense">
-    <link rel="manifest" href="/manifest.json">
-    <title>Shopping List</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="easily make a list of your shopping items and track your shopping expense">
+  <link rel="manifest" href="/manifest.json">
+  <title>Shopping List</title>
 
-    <link rel="stylesheet" href="/resources/mdl/material-icons.css">
-    <link rel="stylesheet" href="/resources/mdl/material.indigo-pink.min.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <script src="/resources/mdl/material.min.js"></script>
-    <script src="/resources/dialog-polyfill/dialog-polyfill.js"></script>
-    <link rel="stylesheet" href="/resources/dialog-polyfill/dialog-polyfill.css" />  
+  <link rel="stylesheet" href="/resources/mdl/material-icons.css">
+  <link rel="stylesheet" href="/resources/mdl/material.indigo-pink.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/resources/mdl/material.min.js"></script>
+  <script src="/resources/dialog-polyfill/dialog-polyfill.js"></script>
+  <link rel="stylesheet" href="/resources/dialog-polyfill/dialog-polyfill.css" />
 
-    <!-- App Name -->
-    <meta name="apple-mobile-web-app-title" content="Shopping List">
-    <meta name="application-name" content="Shopping List">
+  <!-- App Name -->
+  <meta name="apple-mobile-web-app-title" content="Shopping List">
+  <meta name="application-name" content="Shopping List">
 
-    <!-- App Capable -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- App Capable -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16">
-    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00aba9">
-   
-    <meta name="msapplication-TileColor" content="#00aba9">
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-    <meta name="theme-color" content="#00aba9">  
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#00aba9">
+
+  <meta name="msapplication-TileColor" content="#00aba9">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#00aba9">
 </head>
+
 <body>
-    <!-- Always shows a header, even in smaller screens. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
+  <!-- Always shows a header, even in smaller screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Shopping List</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <a class="mdl-navigation__link" href="index.html">Home</a>
+          <a class="mdl-navigation__link" href="history.html">History</a>
+          <a onclick="pageEvents.showLogin()" style="cursor: pointer" class="mdl-navigation__link login">Login</a>
+          <a onclick="pageEvents.showRegister()" style="cursor: pointer" class="mdl-navigation__link register">Register</a>
+          <a onclick="pageEvents.signout()" style="cursor: pointer" class="mdl-navigation__link logout">Logout</a>
+        </nav>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">Shopping List</span>
-      <!-- Add spacer, to align navigation to the right -->
-      <div class="mdl-layout-spacer"></div>
-      <!-- Navigation. We hide it in small screens. -->
-      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="index.html">Home</a>
         <a class="mdl-navigation__link" href="history.html">History</a>
         <a onclick="pageEvents.showLogin()" style="cursor: pointer" class="mdl-navigation__link login">Login</a>
@@ -55,30 +68,19 @@
         <a onclick="pageEvents.signout()" style="cursor: pointer" class="mdl-navigation__link logout">Logout</a>
       </nav>
     </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Shopping List</span>
-    <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="index.html">Home</a>
-        <a class="mdl-navigation__link" href="history.html">History</a>
-        <a onclick="pageEvents.showLogin()" style="cursor: pointer" class="mdl-navigation__link login">Login</a>
-        <a onclick="pageEvents.showRegister()" style="cursor: pointer" class="mdl-navigation__link register">Register</a>
-        <a onclick="pageEvents.signout()" style="cursor: pointer" class="mdl-navigation__link logout">Logout</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-    <div class="page-content">
+    <main class="mdl-layout__content">
+      <div class="page-content">
         <!-- Your content goes here -->
         <div class="center">
-            <h2>History</h2>
+          <h2>History</h2>
         </div>
 
         <div class="mdl-grid center-items">
-            <ul id="list-history" class="demo-list-icon mdl-list">
-                
-            </ul>
-        </div>  
-         <!-- display the 'show more button' -->
+          <ul id="list-history" class="demo-list-icon mdl-list">
+
+          </ul>
+        </div>
+        <!-- display the 'show more button' -->
         <!--<div class="center">
             <button 
             class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
@@ -92,72 +94,72 @@
             <button class="mdl-snackbar__action" type="button"></button>
           </div>
         </div>
-        
-    </div>
-  </main>
-</div>
 
-<dialog id="login-dialog" class="mdl-dialog">
-  <h4 class="mdl-dialog__title">Login</h4>
-  <div class="mdl-dialog__content">
-    <div class="mdl-grid center-items">
+      </div>
+    </main>
+  </div>
+
+  <dialog id="login-dialog" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Login</h4>
+    <div class="mdl-dialog__content">
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <input class="mdl-textfield__input" type="text" id="login-username">
           <label class="mdl-textfield__label" for="login-username">Username</label>
-        </div>            
-    </div>
-    <div class="mdl-grid center-items">
+        </div>
+      </div>
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <input class="mdl-textfield__input" type="password" id="login-password">
           <label class="mdl-textfield__label" for="login-password">Password</label>
-        </div>            
-    </div>
-    <div class="mdl-grid center-items">
+        </div>
+      </div>
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <span id="login-error"></span>
-        </div>            
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="mdl-dialog__actions">
-    <button onclick="pageEvents.closeLogin()" type="button" class="mdl-button close">Cancel</button>
-    <button onclick="pageEvents.login()" type="button" class="mdl-button">Login</button>
-  </div>
-</dialog>
+    <div class="mdl-dialog__actions">
+      <button onclick="pageEvents.closeLogin()" type="button" class="mdl-button close">Cancel</button>
+      <button onclick="pageEvents.login()" type="button" class="mdl-button">Login</button>
+    </div>
+  </dialog>
 
-<dialog id="register-dialog" class="mdl-dialog">
-  <h4 class="mdl-dialog__title">Login</h4>
-  <div class="mdl-dialog__content">
-    <div class="mdl-grid center-items">
+  <dialog id="register-dialog" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Login</h4>
+    <div class="mdl-dialog__content">
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <input class="mdl-textfield__input" type="text" id="register-username">
           <label class="mdl-textfield__label" for="register-username">Username</label>
-        </div>            
-    </div>
-    <div class="mdl-grid center-items">
+        </div>
+      </div>
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <input class="mdl-textfield__input" type="password" id="register-password">
           <label class="mdl-textfield__label" for="register-password">Password</label>
-        </div>            
-    </div>
-    <div class="mdl-grid center-items">
+        </div>
+      </div>
+      <div class="mdl-grid center-items">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield">
           <span id="register-error"></span>
-        </div>            
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="mdl-dialog__actions">
-    <button onclick="pageEvents.closeRegister()" type="button" class="mdl-button close">Cancel</button>
-    <button onclick="pageEvents.register()" type="button" class="mdl-button">Register</button>
-  </div>
-</dialog>
+    <div class="mdl-dialog__actions">
+      <button onclick="pageEvents.closeRegister()" type="button" class="mdl-button close">Cancel</button>
+      <button onclick="pageEvents.register()" type="button" class="mdl-button">Register</button>
+    </div>
+  </dialog>
 
-<script id="list" type="text/template">
+  <script id="list" type="text/template">
     <li class="mdl-list__item">
         <span class="mdl-list__item-primary-content">
             <span class="pad-right">{{date}}</span>
@@ -166,11 +168,14 @@
     </li>
 </script>
 
-<script src="/hoodie/client.js"></script>
-<script src="resources/system.js"></script>
-<script>
-  System.config({ "baseURL": "js/transpiled" });
-  System.import("history.js");
-</script>
+
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.185.0.min.js"></script>
+  <script src="resources/amazon-cognito.min.js"></script>
+  <script src="resources/system.js"></script>
+  <script>
+    System.config({ "baseURL": "js/transpiled" });
+    System.import("history.js");
+  </script>
 </body>
+
 </html>

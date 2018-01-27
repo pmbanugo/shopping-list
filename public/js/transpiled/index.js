@@ -3,7 +3,7 @@
 System.register(["shared.js"], function (_export, _context) {
   "use strict";
 
-  var shared;
+  var shared, itemDataset, listDataset;
 
 
   function getIndexTemplate() {
@@ -11,16 +11,16 @@ System.register(["shared.js"], function (_export, _context) {
     return template;
   }
 
-  function addItemToPage(item) {
-    if (document.getElementById(item._id)) return;
+  function addItemToPage(key, item) {
+    if (document.getElementById(item.key)) return;
 
     var template = getIndexTemplate();
     template = template.replace("{{name}}", item.name);
     template = template.replace("{{cost}}", item.cost);
     template = template.replace("{{quantity}}", item.quantity);
     template = template.replace("{{subTotal}}", item.subTotal);
-    template = template.replace("{{row-id}}", item._id);
-    template = template.replace("{{item-id}}", item._id);
+    template = template.replace("{{row-id}}", key);
+    template = template.replace("{{item-id}}", key);
     document.getElementById("item-table").tBodies[0].innerHTML += template;
 
     var totalCost = Number.parseFloat(document.getElementById("total-cost").value);
@@ -36,12 +36,20 @@ System.register(["shared.js"], function (_export, _context) {
     var subTotal = cost * quantity;
 
     if (name && cost && quantity) {
-      hoodie.store.withIdPrefix("item").add({
+      var newItem = {
         name: name,
         cost: cost,
         quantity: quantity,
         subTotal: subTotal
-      });
+      };
+      var key = Date.now().toString(); //non-optimal unique key
+
+      itemDataset.put(key, JSON.stringify(newItem), function (error, record) {
+        if (error) console.log(error);else {
+          console.log(record);
+          addItemToPage(key, newItem);
+        }
+      }); //check if this returns a promise
 
       document.getElementById("new-item-name").value = "";
       document.getElementById("new-item-cost").value = "";
@@ -55,79 +63,85 @@ System.register(["shared.js"], function (_export, _context) {
   }
 
   function deleteRow(deletedItem) {
-    var row = document.getElementById(deletedItem._id);
-    var totalCost = Number.parseFloat(document.getElementById("total-cost").value);
-    document.getElementById("total-cost").value = totalCost - deletedItem.subTotal;
+    var row = document.getElementById(deletedItem.key);
     row.parentNode.removeChild(row);
   }
 
   function saveList() {
     var cost = 0.0;
 
-    hoodie.store.withIdPrefix("item").findAll().then(function (items) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+    itemDataset.getAllRecords(function (error, records) {
+      if (error) {
+        console.log(error);
+        //notify the user
+        var snackbarContainer = document.querySelector("#toast");
+        snackbarContainer.MaterialSnackbar.showSnackbar({
+          message: error
+        });
+      } else {
+        var date = Date.now();
+        var listId = date.toString();
 
-      try {
-        for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var item = _step.value;
-
-          console.log(item);
-          cost += item.subTotal;
-        }
-
-        //store the list
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
+        records.forEach(function (record) {
+          if (record.value) {
+            var value = JSON.parse(record.value);
+            if (!value.listId) {
+              cost += value.subTotal;
+              value.listId = listId;
+              itemDataset.put(record.key, JSON.stringify(value), function (error, record) {
+                if (error) {
+                  //notify the user
+                  var snackbarContainer = document.querySelector("#toast");
+                  snackbarContainer.MaterialSnackbar.showSnackbar({
+                    message: error
+                  });
+                }
+              });
+            }
           }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+        });
+
+        listDataset.put(listId, JSON.stringify({ cost: cost, date: date }), function (error, record) {
+          if (error) {
+            //notify the user
+            var snackbarContainer = document.querySelector("#toast");
+            snackbarContainer.MaterialSnackbar.showSnackbar({
+              message: error
+            });
+          } else {
+            console.log(record);
+            //clear the table
+            document.getElementById("item-table").tBodies[0].innerHTML = "";
+            document.getElementById("total-cost").value = "";
+
+            //notify the user
+            var snackbarContainer = document.querySelector("#toast");
+            snackbarContainer.MaterialSnackbar.showSnackbar({
+              message: "List saved succesfully"
+            });
           }
-        }
+        });
       }
-
-      hoodie.store.withIdPrefix("list").add({
-        cost: cost,
-        items: items
-      });
-
-      //delete the items
-      console.log("deleting items");
-      hoodie.store.withIdPrefix("item").remove(items).then(function () {
-        //clear the table
-        document.getElementById("item-table").tBodies[0].innerHTML = "";
-
-        //notify the user
-        var snackbarContainer = document.querySelector("#toast");
-        snackbarContainer.MaterialSnackbar.showSnackbar({
-          message: "List saved succesfully"
-        });
-      }).catch(function (error) {
-        //notify the user
-        var snackbarContainer = document.querySelector("#toast");
-        snackbarContainer.MaterialSnackbar.showSnackbar({
-          message: error.message
-        });
-      });
     });
   }
 
   function deleteItem(itemId) {
     console.log("removing item with id " + itemId);
-    hoodie.store.withIdPrefix("item").remove(itemId);
+
+    itemDataset.get(itemId, function (error, value) {
+      itemDataset.remove(itemId, function (err, record) {
+        console.log("successfully deleted");
+        var totalCost = Number.parseFloat(document.getElementById("total-cost").value);
+        document.getElementById("total-cost").value = totalCost - JSON.parse(value).subTotal;
+        deleteRow(record);
+      });
+    });
   }
 
   function init() {
-    shared.updateDOMLoginStatus();
-    hoodie.store.withIdPrefix("item").on("add", addItemToPage);
-    hoodie.store.withIdPrefix("item").on("remove", deleteRow);
+    // shared.updateDOMLoginStatus();
+    // hoodie.store.withIdPrefix("item").on("add", addItemToPage);
+    // hoodie.store.withIdPrefix("item").on("remove", deleteRow);
 
     document.getElementById("add-item").addEventListener("click", saveNewitem);
 
@@ -144,40 +158,46 @@ System.register(["shared.js"], function (_export, _context) {
     };
 
     //retrieve items on the current list and display on the page
-    hoodie.store.withIdPrefix("item").findAll().then(function (items) {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var item = _step2.value;
-
-          addItemToPage(item);
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+    itemDataset.getAllRecords(function (error, records) {
+      // console.log("getting all items");
+      if (error) console.log(error);else {
+        records.forEach(function (record) {
+          if (record.value) {
+            var value = JSON.parse(record.value);
+            if (!value.listId) addItemToPage(record.key, value);
           }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
+        });
       }
     });
   }
-
   return {
     setters: [function (_sharedJs) {
       shared = _sharedJs;
     }],
     execute: function () {
-      init();
+      itemDataset = void 0;
+      listDataset = void 0;
+
+
+      // Initialize the Amazon Cognito credentials provider
+      // AWS.config.region = "us-east-2"; // Region
+      // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      //   IdentityPoolId: "us-east-2:aac10a79-1bf2-4d87-a7f9-d9dcc433c102"
+      // });
+
+      // Initialize the Cognito Sync client
+      AWS.config.credentials.get(function () {
+        var syncClient = new AWS.CognitoSyncManager();
+
+        syncClient.openOrCreateDataset("item", function (err, dataset) {
+          itemDataset = dataset;
+          init();
+        });
+
+        syncClient.openOrCreateDataset("list", function (err, dataset) {
+          return listDataset = dataset;
+        });
+      });
     }
   };
 });

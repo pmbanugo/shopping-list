@@ -11,36 +11,28 @@ System.register(["shared.js"], function (_export, _context) {
     return template;
   }
 
-  function init() {
-    shared.updateDOMLoginStatus();
+  function init(dataset) {
+    //shared.updateDOMLoginStatus();
 
-    hoodie.store.withIdPrefix("list").findAll().then(function (savedList) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+    dataset.getAllRecords(function (error, records) {
+      if (error) {
+        console.log(error);
+        //notify the user
+        var snackbarContainer = document.querySelector("#toast");
+        snackbarContainer.MaterialSnackbar.showSnackbar({
+          message: "Error getting your shopping history"
+        });
+      } else {
+        records.forEach(function (record) {
+          if (record.value) {
+            var value = JSON.parse(record.value);
 
-      try {
-        for (var _iterator = savedList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var list = _step.value;
-
-          var template = getIndexTemplate();
-          template = template.replace("{{date}}", new Date(list.hoodie.createdAt).toDateString());
-          template = template.replace("{{cost}}", list.cost);
-          document.getElementById("list-history").innerHTML += template;
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
+            var template = getIndexTemplate();
+            template = template.replace("{{date}}", new Date(value.date).toLocaleString());
+            template = template.replace("{{cost}}", value.cost);
+            document.getElementById("list-history").innerHTML += template;
           }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        });
       }
     });
 
@@ -54,13 +46,20 @@ System.register(["shared.js"], function (_export, _context) {
       signout: shared.signOut
     };
   }
-
   return {
     setters: [function (_sharedJs) {
       shared = _sharedJs;
     }],
     execute: function () {
-      init();
+
+      // Initialize the Cognito Sync client
+      AWS.config.credentials.get(function () {
+        var syncClient = new AWS.CognitoSyncManager();
+
+        syncClient.openOrCreateDataset("list", function (err, dataset) {
+          return init(dataset);
+        });
+      });
     }
   };
 });

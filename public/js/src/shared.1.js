@@ -1,15 +1,9 @@
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker
-//     .register("sw.js")
-//     .then(console.log)
-//     .catch(console.error);
-// }
-
-// Initialize the Amazon Cognito credentials provider
-AWS.config.region = "us-east-2"; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: "us-east-2:aac10a79-1bf2-4d87-a7f9-d9dcc433c102"
-});
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("sw.js")
+    .then(console.log)
+    .catch(console.error);
+}
 
 //register dialog element
 let loginDialog = document.querySelector("#login-dialog");
@@ -116,18 +110,18 @@ let register = function() {
 };
 
 let updateDOMLoginStatus = () => {
-  // hoodie.account.get("session").then(function(session) {
-  //   if (!session) {
-  //     // user is singed out
-  //     showAnonymous();
-  //   } else if (session.invalid) {
-  //     // user is signed in, but session is no longer authenticated
-  //     showAnonymous();
-  //   } else {
-  //     // user is signed in
-  //     showLoggedIn();
-  //   }
-  // });
+  hoodie.account.get("session").then(function(session) {
+    if (!session) {
+      // user is singed out
+      showAnonymous();
+    } else if (session.invalid) {
+      // user is signed in, but session is no longer authenticated
+      showAnonymous();
+    } else {
+      // user is signed in
+      showLoggedIn();
+    }
+  });
 };
 
 export {
