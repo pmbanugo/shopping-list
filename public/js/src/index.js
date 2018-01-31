@@ -23,7 +23,7 @@ AWS.config.credentials.get(function() {
   );
 });
 
-function getIndexTemplate() {
+function getTemplate() {
   let template = document.querySelector("#item-row").innerHTML;
   return template;
 }
@@ -31,7 +31,7 @@ function getIndexTemplate() {
 function addItemToPage(key, item) {
   if (document.getElementById(item.key)) return;
 
-  let template = getIndexTemplate();
+  let template = getTemplate();
   template = template.replace("{{name}}", item.name);
   template = template.replace("{{cost}}", item.cost);
   template = template.replace("{{quantity}}", item.quantity);
@@ -82,22 +82,14 @@ function saveNewitem() {
   }
 }
 
-function deleteRow(deletedItem) {
-  let row = document.getElementById(deletedItem.key);
-  row.parentNode.removeChild(row);
-}
-
 function saveList() {
   let cost = 0.0;
 
   itemDataset.getAllRecords((error, records) => {
     if (error) {
       console.log(error);
-      //notify the user
-      var snackbarContainer = document.querySelector("#toast");
-      snackbarContainer.MaterialSnackbar.showSnackbar({
-        message: error
-      });
+
+      notifyUser(error);
     } else {
       let date = Date.now();
       let listId = date.toString();
@@ -108,57 +100,49 @@ function saveList() {
           if (!value.listId) {
             cost += value.subTotal;
             value.listId = listId;
-            itemDataset.put(
-              record.key,
-              JSON.stringify(value),
-              (error, record) => {
-                if (error) {
-                  //notify the user
-                  var snackbarContainer = document.querySelector("#toast");
-                  snackbarContainer.MaterialSnackbar.showSnackbar({
-                    message: error
-                  });
-                }
-              }
-            );
+            updateShoppingItem(record, value);
           }
         }
       });
 
-      listDataset.put(
-        listId,
-        JSON.stringify({ cost, date }),
-        (error, record) => {
-          if (error) {
-            //notify the user
-            var snackbarContainer = document.querySelector("#toast");
-            snackbarContainer.MaterialSnackbar.showSnackbar({
-              message: error
-            });
-          } else {
-            console.log(record);
-            //clear the table
-            document.getElementById("item-table").tBodies[0].innerHTML = "";
-            document.getElementById("total-cost").value = "";
-
-            //notify the user
-            var snackbarContainer = document.querySelector("#toast");
-            snackbarContainer.MaterialSnackbar.showSnackbar({
-              message: "List saved succesfully"
-            });
-          }
-        }
-      );
+      insertShoppingList(listId, cost, date);
     }
   });
 }
 
-function deleteItem(itemId) {
-  console.log("removing item with id " + itemId);
+function updateShoppingItem(record, value) {
+  itemDataset.put(record.key, JSON.stringify(value), (error, record) => {
+    if (error) {
+      notifyUser(error);
+    }
+  });
+}
 
+function insertShoppingList(listId, cost, date) {
+  listDataset.put(listId, JSON.stringify({ cost, date }), (error, record) => {
+    if (error) {
+      notifyUser(error);
+    } else {
+      //clear the table
+      document.getElementById("item-table").tBodies[0].innerHTML = "";
+      document.getElementById("total-cost").value = "";
+
+      notifyUser("List saved succesfully");
+    }
+  });
+}
+
+function notifyUser(message) {
+  //notify the user
+  var snackbarContainer = document.querySelector("#toast");
+  snackbarContainer.MaterialSnackbar.showSnackbar({
+    message: message
+  });
+}
+
+function deleteItem(itemId) {
   itemDataset.get(itemId, (error, value) => {
     itemDataset.remove(itemId, (err, record) => {
-      console.log("successfully deleted");
       let totalCost = Number.parseFloat(
         document.getElementById("total-cost").value
       );
@@ -167,6 +151,11 @@ function deleteItem(itemId) {
       deleteRow(record);
     });
   });
+}
+
+function deleteRow(deletedItem) {
+  let row = document.getElementById(deletedItem.key);
+  row.parentNode.removeChild(row);
 }
 
 function init() {
@@ -190,8 +179,9 @@ function init() {
 
   //retrieve items on the current list and display on the page
   itemDataset.getAllRecords((error, records) => {
-    // console.log("getting all items");
-    if (error) console.log(error);
+    if (error)
+      console.log(error) ||
+        notifyUser("error occured fetching your shopping items");
     else {
       records.forEach(record => {
         if (record.value) {

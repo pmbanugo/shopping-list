@@ -52,6 +52,12 @@ System.register(["shared.js"], function (_export, _context) {
     }],
     execute: function () {
 
+      // Initialize the Amazon Cognito credentials provider
+      // AWS.config.region = "us-east-2"; // Region
+      // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      //   IdentityPoolId: "us-east-2:aac10a79-1bf2-4d87-a7f9-d9dcc433c102"
+      // });
+
       // Initialize the Cognito Sync client
       AWS.config.credentials.get(function () {
         var syncClient = new AWS.CognitoSyncManager();

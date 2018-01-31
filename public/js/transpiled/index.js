@@ -48,6 +48,13 @@ System.register(["shared.js"], function (_export, _context) {
         if (error) console.log(error);else {
           console.log(record);
           addItemToPage(key, newItem);
+          itemDataset.synchronize({
+            onSuccess: function onSuccess(dataset, newRecords) {
+              console.log("synchronise success");
+              console.log(dataset);
+              console.log(newRecords);
+            }
+          });
         }
       }); //check if this returns a promise
 
@@ -88,38 +95,45 @@ System.register(["shared.js"], function (_export, _context) {
             if (!value.listId) {
               cost += value.subTotal;
               value.listId = listId;
-              itemDataset.put(record.key, JSON.stringify(value), function (error, record) {
-                if (error) {
-                  //notify the user
-                  var snackbarContainer = document.querySelector("#toast");
-                  snackbarContainer.MaterialSnackbar.showSnackbar({
-                    message: error
-                  });
-                }
-              });
+              updateShoppingItem(record, value);
             }
           }
         });
 
-        listDataset.put(listId, JSON.stringify({ cost: cost, date: date }), function (error, record) {
-          if (error) {
-            //notify the user
-            var snackbarContainer = document.querySelector("#toast");
-            snackbarContainer.MaterialSnackbar.showSnackbar({
-              message: error
-            });
-          } else {
-            console.log(record);
-            //clear the table
-            document.getElementById("item-table").tBodies[0].innerHTML = "";
-            document.getElementById("total-cost").value = "";
+        insertShoppingList(listId, cost, date);
+      }
+    });
+  }
 
-            //notify the user
-            var snackbarContainer = document.querySelector("#toast");
-            snackbarContainer.MaterialSnackbar.showSnackbar({
-              message: "List saved succesfully"
-            });
-          }
+  function updateShoppingItem(record, value) {
+    itemDataset.put(record.key, JSON.stringify(value), function (error, record) {
+      if (error) {
+        //notify the user
+        var snackbarContainer = document.querySelector("#toast");
+        snackbarContainer.MaterialSnackbar.showSnackbar({
+          message: error
+        });
+      }
+    });
+  }
+
+  function insertShoppingList(listId, cost, date) {
+    listDataset.put(listId, JSON.stringify({ cost: cost, date: date }), function (error, record) {
+      if (error) {
+        //notify the user
+        var snackbarContainer = document.querySelector("#toast");
+        snackbarContainer.MaterialSnackbar.showSnackbar({
+          message: error
+        });
+      } else {
+        console.log(record);
+        //clear the table
+        document.getElementById("item-table").tBodies[0].innerHTML = "";
+        document.getElementById("total-cost").value = "";
+        //notify the user
+        var snackbarContainer = document.querySelector("#toast");
+        snackbarContainer.MaterialSnackbar.showSnackbar({
+          message: "List saved succesfully"
         });
       }
     });

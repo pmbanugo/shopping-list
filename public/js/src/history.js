@@ -13,7 +13,7 @@ AWS.config.credentials.get(function() {
   syncClient.openOrCreateDataset("list", (err, dataset) => init(dataset));
 });
 
-function getIndexTemplate() {
+function getTemplate() {
   let template = document.querySelector("#list").innerHTML;
   return template;
 }
@@ -34,7 +34,7 @@ function init(dataset) {
         if (record.value) {
           let value = JSON.parse(record.value);
 
-          let template = getIndexTemplate();
+          let template = getTemplate();
           template = template.replace(
             "{{date}}",
             new Date(value.date).toLocaleString()
