@@ -11,5 +11,3 @@ npm install
 npm run-script build
 npm start
 ```
-
-This app is build with Hoodie. Find out more on [docs.hood.ie](http://docs.hood.ie)
