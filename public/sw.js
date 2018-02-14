@@ -80,7 +80,7 @@ const fileManifest = [
   },
   {
     "url": "sw1.js",
-    "revision": "20ba2f72b85baa1ac2a5fabf18101c7d"
+    "revision": "0a3eac47771ce8e62d28908ee47a657f"
   },
   {
     "url": "/hoodie/client.js",

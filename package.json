@@ -1,13 +1,11 @@
 {
   "name": "shopping-list",
   "version": "1.0.0",
-  "description":
-    "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
+  "description": "a progressive web app that I can use to list items I want to buy and also store the list and total item cost",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "hoodie",
-    "build":
-      "babel public/js/src --out-dir public/js/transpiled && workbox generate:sw"
+    "build": "babel public/js/src --out-dir public/js/transpiled && workbox generate:sw"
   },
   "author": "Peter Mbanugo",
   "license": "ISC",

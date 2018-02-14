@@ -1,8 +1,8 @@
 module.exports = {
   globDirectory: "public/",
-  globPatterns: ["**/*.{css,ico,html,png,svg,js,json,woff2}"],
+  globPatterns: ["**/*.{css,ico,html,png,js,json,woff2}"],
   swDest: "./public/sw.js",
-  globIgnores: ["../workbox-cli-config.js", "icons/*", "js/src/*", "sw.old.js"],
+  globIgnores: ["icons/*", "js/src/*", "sw.old.js"],
   skipWaiting: true,
   clientsClaim: true,
   templatedUrls: {
