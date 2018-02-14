@@ -48,7 +48,7 @@ const fileManifest = [
   },
   {
     "url": "manifest.json",
-    "revision": "cfada03439f24ccdb59dae8d4f6370d1"
+    "revision": "f4850783fae8b37f26db86712c8b4505"
   },
   {
     "url": "resources/dialog-polyfill/dialog-polyfill.css",
