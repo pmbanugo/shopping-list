@@ -8,7 +8,7 @@
 git clone https://github.com/pmbanugo/shopping-list.git
 cd shopping-list
 npm install
-npm run-script build
+npm run build
 npm start
 ```
 
